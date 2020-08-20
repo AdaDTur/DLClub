@@ -1,0 +1,20 @@
+import numpy as np
+X=[1,2,6,7]
+Y=[1,2,1.5,3.5]
+mean_x = np.mean(X)
+mean_y = np.mean(Y)
+numer = 0
+denom = 0
+for i in range(len(X)):
+  numer += (X[i] - mean_x) * (Y[i] - mean_y)
+  denom += (X[i] - mean_x) ** 2
+m = numer / denom
+b = mean_y - (m * mean_x)
+print("Values of 'm' and 'b'")
+print(m, b)
+
+import matplotlib.pyplot as plt
+plt.plot(x, y, color='#58b970', label='X')
+# Ploting Scatter Points
+plt.scatter(X, Y, c='#ef5423', label='Y')
+plt.show()
