@@ -1,0 +1,38 @@
+import torch.nn as nn
+import torch
+
+inputs = torch.randn(10, 4)
+weights = torch.randn(4, 1, requires_grad = True)
+truths = torch.randn(10, 1)
+predictions = torch.matmul(inputs, weights)
+
+myloss = torch.sum((truths-predictions)**2)/10
+
+mseloss = nn.MSELoss()
+torchloss = mseloss(predictions, truths)
+print(torchloss)
+
+learning_rate = 0.001
+
+model = torch.nn.Sequential(
+    torch.nn.Linear(4,7),
+    torch.nn.ReLU(),
+    torch.nn.Linear(7,3),
+    torch.nn.Sigmoid(),
+    torch.nn.Linear(3,5),
+    torch.nn.Tanh(),
+    torch.nn.Linear(5,3),
+    torch.nn.LeakyReLU(),
+    torch.nn.Linear(3,1)
+)
+
+#optimizers are functions that improve your weights
+optimizer = torch.optim.Adagrad(model.parameters(), lr = learning_rate)
+
+for i in range(5):
+  predictions = model(inputs)
+  loss = mseloss(predictions, truths)
+  model.zero_grad()
+  loss.backward()
+  optimizer.step()
+  print(loss)
